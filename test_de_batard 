@@ -1,0 +1,6 @@
+cat << eof 
+
+echo
+bonjour
+
+test
