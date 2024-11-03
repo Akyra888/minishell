@@ -6,7 +6,7 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:30:00 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/10/21 18:52:07 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/11/03 19:48:34 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,26 @@ t_node	*lstdel_head(t_lists *l)
 
 int	main(int argc, char **argv)
 {
-	t_lists	*l;
+	t_lists		*l;
+	int			i;
 
-	l = create_list();
-	push_head(l, argv[1]);
-	lstadd_tail(l, argv[2]);
-	lstadd_tail(l, argv[3]);
-	lstadd_tail(l, argv[4]);
-	print_lists(l);
+	i = 1;
+	l = list_create();
+	while (i < argc)
+	{
+		lstadd_tail(l, argv[i]);
+		i++;
+	}
+	print_list(l);
+	printf("\n");
 	swap_nodes(l, argv[1], argv[4]);
-	print_lists(l);
+	print_list(l);
+	printf("\n");
 	swap_nodes(l, argv[2], argv[3]);
-	print_lists(l);
+	print_list(l);
+	printf("\n");
+	swap_nodes(l, argv[4], argv[6]);
+	print_list(l);
+	printf("\n");
 	return (0);
 }

@@ -6,34 +6,31 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:35:00 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/10/25 19:37:57 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/11/03 13:49:37 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-// libere la memoire et affiche un message d'erreur
-static void	ft_early_error(char *str, char *line)
+
+static int	ft_early_error(char *str)
 {
-	free(line);
 	ft_putstr_fd("minishell: syntax error ", 2);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd("\n", 2);
-	exit(EXIT_FAILURE);
+	return (1);
 }
 
-// trouve si le heredoc a un delimiter
 static int	is_delimiter(char *line, int i)
 {
 	while (line[i] != '\0')
 	{
-		if (line[i] != ' ' && line[i] != '\t')
+		if (line[i] != ' ' && line[i] != '\t' && is_operator(line[i]) == 0)
 			return (1);
 		i++;
 	}
 	return (0);
 }
 
-//verifie si les quotes sont fermes
 static int	is_quote_closed(char *str)
 {
 	int	i;
@@ -56,8 +53,7 @@ static int	is_quote_closed(char *str)
 	return (1);
 }
 
-//pareil mais pour le heredoc et le backslash
-static void	detect_early_errors2(char *line)
+static int	detect_early_errors2(char *line)
 {
 	int	i;
 
@@ -67,31 +63,34 @@ static void	detect_early_errors2(char *line)
 		if (!is_delimiter(line, i))
 		{
 			free(line);
-			ft_early_error(": no delimiter\n", line);
+			ft_early_error("near unexpected token `newline'\n");
 		}
 	}
 	if (find_backslash(line) == 1)
-		ft_early_error(": backslash is not handled", line);
+		return (ft_early_error(": backslash is not handled"));
+	return (0);
 }
 
-void	detect_early_errors(char *line)
+int	detect_early_errors(char *line)
 {
 	if (!is_quote_closed(line))
-		ft_early_error(": unclosed quote", line);
+		return (ft_early_error(": unclosed quote"));
+	if (to_find_str(line, "\n") != -1)
+		return (ft_early_error(": newline is not handled"));
 	if (to_find_str(line, ";") != -1)
-		ft_early_error(": ';' is not handled", line);
+		return (ft_early_error(": ';' is not handled"));
 	if (to_find_str(line, "||") != -1)
-		ft_early_error(": '||' is not handled", line);
+		return (ft_early_error(": '||' is not handled"));
 	if (to_find_str(line, "&&") != -1)
-		ft_early_error(": '&&' is not handled", line);
+		return (ft_early_error(": '&&' is not handled"));
 	if (to_find_str(line, "&") != -1)
-		ft_early_error(": '&' is not handled", line);
+		return (ft_early_error(": '&' is not handled"));
 	if (to_find_str(line, "(") != -1 || to_find_str(line, ")") != -1)
-		ft_early_error(": parenthesis are not handled", line);
+		return (ft_early_error(": parenthesis are not handled"));
 	if (to_find_str(line, "><") != -1)
-		ft_early_error(": '><' is not handled", line);
+		return (ft_early_error(": '><' is not handled"));
 	if (to_find_str(line, "<>") != -1
 		&& !is_only_spaces(line + to_find_str(line, "<>")))
-		ft_early_error("near unexpected token `newline'", line);
-	detect_early_errors2(line);
+		return (ft_early_error("near unexpected token `newline'"));
+	return (detect_early_errors2(line));
 }

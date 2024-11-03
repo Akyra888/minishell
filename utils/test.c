@@ -6,7 +6,7 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 20:40:01 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/10/24 15:14:32 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/11/03 15:33:08 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,34 +25,12 @@ void	print_token_table(t_tokentab *table)
 		if (table->tokens[i] && table->tokens[i]->str)
 		{
 			printf("Token %d: '%s' ", i, table->tokens[i]->str);
-			switch (table->tokens[i]->type)
-			{
-				case CMD:
-					printf("CMD");
-					break;
-				case TXT:
-					printf("TXT");
-					break;
-				default:
-					printf("Unknown");
-					break;
-			}
-			printf(", ");
-			switch (table->tokens[i]->quote)
-			{
-				case NONE:
-					printf("None");
-					break;
-				case SQUOTE:
-					printf("Single Quote");
-					break;
-				case DQUOTE:
-					printf("Double Quote");
-					break;
-				default:
-					printf("Unknown");
-					break;
-			}
+			if (table->tokens[i]->quote == NONE)
+				printf("None");
+			else if (table->tokens[i]->quote == SQUOTE)
+				printf("Single quote");
+			else if (table->tokens[i]->quote == DQUOTE)
+				printf("Double quote");
 			printf("\n");
 		}
 	}

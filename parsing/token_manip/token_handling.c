@@ -12,27 +12,22 @@
 
 #include "../../include/minishell.h"
 
-t_token	*create_token(void)
+t_token	*create_token(t_parserstate *state)
 {
 	t_token	*t;
 
 	t = malloc(sizeof(t_token));
 	if (!t)
-	{
-		printf("Error malloc for t in createToken");
-		return (NULL);
-	}
+		return (ft_error("Error malloc for t in create_token",
+				state, NULL));
 	t->mem_size = 16;
+	t->str = NULL;
 	t->str = malloc(sizeof(char) * t->mem_size);
 	if (!t->str)
-	{
-		printf("Error malloc for t->str in createToken");
-		free(t);
-		return (NULL);
-	}
+		return (ft_error("Error malloc for t->str in create_token",
+				state, (void **)&t));
 	t->size = 0;
 	t->str[0] = '\0';
-	t->type = CMD;
 	t->quote = NONE;
 	return (t);
 }
@@ -47,7 +42,7 @@ void	destroy_token(t_token *t)
 	}
 }
 
-void	push_char(t_token *t, char c)
+void	*push_char(t_token *t, char c, t_parserstate *state)
 {
 	size_t	old_size;
 
@@ -55,14 +50,12 @@ void	push_char(t_token *t, char c)
 	{
 		old_size = t->mem_size;
 		t->mem_size *= 2;
-		t->str = ft_realloc(t->str, old_size, t->mem_size);
+		t->str = ft_realloc(t->str, old_size, t->mem_size, state);
 		if (!t->str)
-		{
-			printf("Error realloc in push_char");
-			return ;
-		}
+			return (NULL);
 	}
 	t->str[t->size] = c;
 	t->size++;
 	t->str[t->size] = '\0';
+	return (state);
 }

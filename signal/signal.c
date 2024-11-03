@@ -29,10 +29,10 @@ void	ft_signal(void)
 	sa.sa_flags = SA_RESTART;
 	sigemptyset(&sa.sa_mask);
 	if (sigaction(SIGINT, &sa, NULL) == -1)
-		ft_error("sigaction SIGINT");
+		ft_error("sigaction SIGINT", NULL, NULL);
 	sa.sa_handler = SIG_IGN;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 	if (sigaction(SIGQUIT, &sa, NULL) == -1)
-		ft_error("sigaction SIGQUIT");
+		ft_error("sigaction SIGQUIT", NULL, NULL);
 }

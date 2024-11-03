@@ -6,7 +6,7 @@
 #    By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/11 22:30:31 by nicpinar          #+#    #+#              #
-#    Updated: 2024/10/25 19:52:28 by nicpinar         ###   ########.fr        #
+#    Updated: 2024/11/03 13:53:08 by nicpinar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,8 @@ PARSERDIR = $(PARSDIR)/parser
 
 SRC = $(SRCDIR)/main.c \
       $(LEXERDIR)/lexer.c \
+	  $(LEXERDIR)/lexer2.c \
       $(LEXERDIR)/detect_errors.c \
-	  $(LEXERDIR)/heredoc.c \
       $(TOKENDIR)/token_handling.c \
       $(TOKENDIR)/token_tab_handling.c \
       $(PARSERDIR)/parser.c \

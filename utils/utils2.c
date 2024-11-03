@@ -6,7 +6,7 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:42:49 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/10/25 19:53:17 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/11/03 15:07:28 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	to_find_str(char *str, char *to_find)
 	i = 0;
 	quote = 0;
 	if (!str || !to_find)
-		return (0);
+		return (-1);
 	while (str[i])
 	{
 		if (str[i] == '\'' || str[i] == '\"')

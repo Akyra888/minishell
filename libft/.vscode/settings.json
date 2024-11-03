@@ -1,0 +1,10 @@
+{
+	"files.associations": {
+		"libft.h": "c",
+		"unistd.h": "c",
+		"sstream": "c",
+		"bitset": "c",
+		"types.h": "c",
+		"__node_handle": "c"
+	}
+}
