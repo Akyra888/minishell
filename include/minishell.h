@@ -6,7 +6,7 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:17:14 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/11/03 20:14:56 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/11/13 21:25:22 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,24 @@ typedef struct s_lists
 	int				len;
 }	t_lists;
 
-typedef enum e_quote
+typedef enum e_type
 {
-	NONE,
-	SQUOTE,
-	DQUOTE
-}	t_quote;
+	UNKNOWN,
+	PIPE,
+	REDIN,
+	REDOUT,
+	REDAPPEND,
+	HEREDOC,
+	TXT,
+	COMMAND
+}	t_type;
 
 typedef struct token
 {
 	char				*str;
 	int					size;
 	int					mem_size;
-	t_quote				quote;
+	t_type				type;
 }	t_token;
 
 typedef struct tokentab
@@ -63,13 +68,13 @@ typedef struct tokentab
 	int					mem_size;
 }	t_tokentab;
 
-typedef struct s_parserstate
+typedef struct s_lexerstate
 {
-	t_tokentab			*tokens;
+	t_tokentab			*table;
 	t_token				*current_token;
 	char				*line;
 	int					index;
-}	t_parserstate;
+}	t_lexerstate;
 
 //----PARSING----//
 
@@ -77,14 +82,13 @@ typedef struct s_parserstate
 
 //lexer.c
 t_tokentab	*tokenize_line(char *line);
+void		push_current_token(t_lexerstate *state);
 
 //lexer2.c
-void		*last_token_push(t_parserstate *state);
-void		*other_cases(t_parserstate *state, char c);
-
-//special_cases.c
-void		heredoc_newline(t_parserstate *state);
-void		new_line(t_parserstate *state);
+void		other_cases(t_lexerstate *state, char c);
+void		handle_expansion(t_lexerstate *state);
+char		*ft_expand(char *str, t_lexerstate *state);
+void		define_type(t_lexerstate *state, char c, char next);
 
 //detect_errors.c
 int			detect_early_errors(char *line);
@@ -97,14 +101,14 @@ void		parse_line(char *line, char **envp);
 //TOKEN_MANIP
 
 //token_handling.c
-t_token		*create_token(t_parserstate *state);
+t_token		*create_token(t_lexerstate *state);
 void		destroy_token(t_token *t);
-void		*push_char(t_token *t, char c, t_parserstate *state);
+void		push_char(t_token *t, char c, t_lexerstate *state);
 
 //token_tab_handling.c
 t_tokentab	*create_token_table(void);
 void		destroy_token_table(t_tokentab *t);
-void		*push_token(t_tokentab *t, t_token *tok, t_parserstate *state);
+void		push_token(t_tokentab *t, t_token *tok, t_lexerstate *state);
 void		print_tokens(t_tokentab *t);
 
 //-----SIGNAL-----//
@@ -113,11 +117,13 @@ void		ft_signal(void);
 //-----UTILS-----//
 
 //utils.c
+int			is_valid(char c);
 int			ft_strcmp(const char *s1, const char *s2);
-void		*ft_error(char *str, t_parserstate *state, void **local);
-void		*ft_memcpy(void *dst, const void *src, size_t n);
+void		malloc_error(char *str, t_lexerstate *state, void **local);
 void		*ft_realloc(void *ptr, size_t old_size, size_t new_size,
-				t_parserstate *state);
+				t_lexerstate *state);
+int			is_next_valid(char c);
+void		append_to_result(char *dest, char *src, int *index);
 
 //utils2.c
 int			is_operator(char c);

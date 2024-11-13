@@ -6,117 +6,106 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:54:21 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/11/03 15:02:16 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/11/13 21:22:55 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	*unquoted_operator(t_parserstate *state, char operator_char)
+void	push_current_token(t_lexerstate *state)
 {
-	t_token	*operator_token;
+	if (state->current_token)
+	{
+		push_token(state->table, state->current_token, state);
+		state->current_token = NULL;
+	}
+}
+
+static void	handle_operator(t_lexerstate *state, char operator_char)
+{
 	char	next_char;
 
-	operator_token = create_token(state);
+	push_current_token(state);
+	state->current_token = create_token(state);
 	next_char = state->line[state->index + 1];
 	if ((operator_char == '>' && next_char == '>')
 		|| (operator_char == '<' && next_char == '<'))
 	{
-		if (!push_char(operator_token, operator_char, state))
-			return (NULL);
+		push_char(state->current_token, operator_char, state);
 		operator_char = state->line[++state->index];
 	}
-	if (state->current_token)
-	{
-		if (!push_token(state->tokens, state->current_token, state))
-			return (NULL);
-		state->current_token = NULL;
-	}
-	if (!push_char(operator_token, operator_char, state))
-		return (NULL);
-	if (push_token(state->tokens, operator_token, state))
-		return (NULL);
-	return (state);
-}
-
-static void	*spaces_tab(t_parserstate *state, char c)
-{
-	if (state->current_token)
-	{
-		if (!push_token(state->tokens, state->current_token, state))
-			return (NULL);
-		state->current_token = NULL;
-	}
-	if (is_operator(c))
-		unquoted_operator(state, c);
+	define_type(state, operator_char, next_char);
+	push_char(state->current_token, operator_char, state);
+	push_token(state->table, state->current_token, state);
+	state->current_token = NULL;
 	state->index++;
-	return (state);
 }
 
-static void	*handle_quote(t_parserstate *state, char quote_char)
+static void	handle_quote(t_lexerstate *state, char quote)
 {
 	char	c;
 
 	if (!state->current_token)
 		state->current_token = create_token(state);
-	if (!state->current_token)
-		return (NULL);
-	state->current_token->quote = DQUOTE;
-	if (quote_char == '\'')
-		state->current_token->quote = SQUOTE;
+	state->current_token->type = TXT;
+	push_char(state->current_token, quote, state);
 	while (state->line[state->index++] != '\0')
 	{
 		c = state->line[state->index];
-		if (c == quote_char)
+		if (c == '$' && is_valid(state->line[state->index + 1])
+			&& quote != '\'')
 		{
+			handle_expansion(state);
+			c = state->line[state->index];
+		}
+		if (c == quote)
+		{
+			push_char(state->current_token, c, state);
 			state->index++;
 			break ;
 		}
 		else
-		{
-			if (push_char(state->current_token, c, state) == NULL)
-				return (NULL);
-		}
+			push_char(state->current_token, c, state);
 	}
-	return (state);
 }
 
-static int	init_parser_state(t_parserstate *state, char *line)
+static int	init_lexerstate(t_lexerstate *state, char *line)
 {
 	if (detect_early_errors(line) == 1)
 		return (1);
 	state->current_token = NULL;
 	state->line = line;
 	state->index = 0;
-	state->tokens = create_token_table();
-	if (!state->tokens)
-		return (1);
+	state->table = create_token_table();
+	if (!state->table)
+		malloc_error("init table failed\n", state, NULL);
 	return (0);
 }
 
 t_tokentab	*tokenize_line(char *line)
 {
-	t_parserstate	state;
+	t_lexerstate	state;
 	char			c;
 
-	if (init_parser_state(&state, line))
+	if (init_lexerstate(&state, line))
 		return (NULL);
 	while (state.line[state.index] != '\0')
 	{
 		c = state.line[state.index];
-		if ((c == ' ' || c == '\t') || (is_operator(c)))
+		if ((c == ' ' || c == '\t'))
 		{
-			if (!spaces_tab(&state, c))
-				return (NULL);
+			push_current_token(&state);
+			state.index++;
 		}
+		else if (c == '$' && is_valid(state.line[state.index + 1]))
+			handle_expansion(&state);
 		else if (c == '\'' || c == '"')
-		{
-			if (!handle_quote(&state, c))
-				return (NULL);
-		}
+			handle_quote(&state, c);
+		else if (is_operator(c))
+			handle_operator(&state, c);
 		else
-			if (!other_cases(&state, c))
-				return (NULL);
+			other_cases(&state, c);
 	}
-	return (last_token_push(&state));
+	push_current_token(&state);
+	return (state.table);
 }

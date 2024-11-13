@@ -6,29 +6,18 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:35:00 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/11/03 13:49:37 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/11/13 20:36:42 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int	ft_early_error(char *str)
+static int	early_error(char *str)
 {
 	ft_putstr_fd("minishell: syntax error ", 2);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd("\n", 2);
 	return (1);
-}
-
-static int	is_delimiter(char *line, int i)
-{
-	while (line[i] != '\0')
-	{
-		if (line[i] != ' ' && line[i] != '\t' && is_operator(line[i]) == 0)
-			return (1);
-		i++;
-	}
-	return (0);
 }
 
 static int	is_quote_closed(char *str)
@@ -53,44 +42,28 @@ static int	is_quote_closed(char *str)
 	return (1);
 }
 
-static int	detect_early_errors2(char *line)
-{
-	int	i;
-
-	i = to_find_str(line, "<<");
-	if (i != -1)
-	{
-		if (!is_delimiter(line, i))
-		{
-			free(line);
-			ft_early_error("near unexpected token `newline'\n");
-		}
-	}
-	if (find_backslash(line) == 1)
-		return (ft_early_error(": backslash is not handled"));
-	return (0);
-}
-
 int	detect_early_errors(char *line)
 {
 	if (!is_quote_closed(line))
-		return (ft_early_error(": unclosed quote"));
+		return (early_error(": unclosed quote"));
 	if (to_find_str(line, "\n") != -1)
-		return (ft_early_error(": newline is not handled"));
+		return (early_error(": newline is not handled"));
 	if (to_find_str(line, ";") != -1)
-		return (ft_early_error(": ';' is not handled"));
+		return (early_error(": ';' is not handled"));
 	if (to_find_str(line, "||") != -1)
-		return (ft_early_error(": '||' is not handled"));
+		return (early_error(": '||' is not handled"));
 	if (to_find_str(line, "&&") != -1)
-		return (ft_early_error(": '&&' is not handled"));
+		return (early_error(": '&&' is not handled"));
 	if (to_find_str(line, "&") != -1)
-		return (ft_early_error(": '&' is not handled"));
+		return (early_error(": '&' is not handled"));
 	if (to_find_str(line, "(") != -1 || to_find_str(line, ")") != -1)
-		return (ft_early_error(": parenthesis are not handled"));
+		return (early_error(": parenthesis are not handled"));
 	if (to_find_str(line, "><") != -1)
-		return (ft_early_error(": '><' is not handled"));
+		return (early_error("near unexpected token `<'"));
 	if (to_find_str(line, "<>") != -1
 		&& !is_only_spaces(line + to_find_str(line, "<>")))
-		return (ft_early_error("near unexpected token `newline'"));
-	return (detect_early_errors2(line));
+		return (early_error("near unexpected token `newline'"));
+	if (find_backslash(line) == 1)
+		return (early_error(": backslash is not handled"));
+	return (0);
 }

@@ -18,20 +18,20 @@ t_tokentab	*create_token_table(void)
 
 	table = malloc(sizeof(t_tokentab));
 	if (!table)
-		return (ft_error("Error : malloc failed in create_token_table",
-				NULL, NULL));
+		return (NULL);
 	table->mem_size = 16;
+	table->tokens = NULL;
 	table->tokens = malloc(sizeof(t_token *) * table->mem_size);
 	if (!table->tokens)
 	{
-		free(table->tokens);
-		return (ft_error("Error realloc in create_token_table", NULL, NULL));
+		free(table);
+		return (NULL);
 	}
 	table->size = 0;
 	return (table);
 }
 
-void	*push_token(t_tokentab *table, t_token *tok, t_parserstate *state)
+void	push_token(t_tokentab *table, t_token *tok, t_lexerstate *state)
 {
 	size_t	old_size;
 
@@ -41,12 +41,9 @@ void	*push_token(t_tokentab *table, t_token *tok, t_parserstate *state)
 		table->mem_size *= 2;
 		table->tokens = ft_realloc(table->tokens, old_size,
 				sizeof(t_token *) * table->mem_size, state);
-		if (!table->tokens)
-			return (NULL);
 	}
 	table->tokens[table->size] = tok;
 	table->size++;
-	return (state);
 }
 
 void	destroy_token_table(t_tokentab *table)

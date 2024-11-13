@@ -12,23 +12,23 @@
 
 #include "../../include/minishell.h"
 
-t_token	*create_token(t_parserstate *state)
+t_token	*create_token(t_lexerstate *state)
 {
 	t_token	*t;
 
 	t = malloc(sizeof(t_token));
 	if (!t)
-		return (ft_error("Error malloc for t in create_token",
-				state, NULL));
+		malloc_error("Error malloc for t in create_token",
+			state, NULL);
 	t->mem_size = 16;
 	t->str = NULL;
 	t->str = malloc(sizeof(char) * t->mem_size);
 	if (!t->str)
-		return (ft_error("Error malloc for t->str in create_token",
-				state, (void **)&t));
+		malloc_error("Error malloc for t->str in create_token",
+			state, (void **)&t);
 	t->size = 0;
 	t->str[0] = '\0';
-	t->quote = NONE;
+	t->type = UNKNOWN;
 	return (t);
 }
 
@@ -42,7 +42,7 @@ void	destroy_token(t_token *t)
 	}
 }
 
-void	*push_char(t_token *t, char c, t_parserstate *state)
+void	push_char(t_token *t, char c, t_lexerstate *state)
 {
 	size_t	old_size;
 
@@ -51,11 +51,8 @@ void	*push_char(t_token *t, char c, t_parserstate *state)
 		old_size = t->mem_size;
 		t->mem_size *= 2;
 		t->str = ft_realloc(t->str, old_size, t->mem_size, state);
-		if (!t->str)
-			return (NULL);
 	}
 	t->str[t->size] = c;
 	t->size++;
 	t->str[t->size] = '\0';
-	return (state);
 }

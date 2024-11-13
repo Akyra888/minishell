@@ -6,7 +6,7 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 20:12:45 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/11/03 15:35:20 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/11/13 19:28:21 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	parse_line(char *line, char **envp)
 {
-	t_tokentab	*tokens;
+	t_tokentab	*table;
 
 	(void)envp;
-	tokens = tokenize_line(line);
-	if (!tokens)
+	table = tokenize_line(line);
+	if (!table)
 		return ;
-	print_token_table(tokens);
-	destroy_token_table(tokens);
+	print_token_table(table);
+	destroy_token_table(table);
 }
