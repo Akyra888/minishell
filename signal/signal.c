@@ -20,6 +20,7 @@ static void	sigint_handler(int sig)
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
+
 void	ft_heredoc_signal(void)
 {
 	struct sigaction	sa;
