@@ -26,10 +26,10 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	ft_signal();
 	while (1)
 	{
 		line = readline("minishell> ");
+		ft_signal();
 		if (line == NULL)
 			exit_shell(NULL);
 		if (ft_strcmp(line, "exit") == 0)
@@ -37,7 +37,7 @@ int	main(int argc, char **argv, char **envp)
 		if (*line != '\0')
 		{
 			add_history(line);
-			parse_line(line, envp);
+			parsing_main(line, envp);
 		}
 		free(line);
 	}

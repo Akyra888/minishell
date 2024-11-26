@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicpinar <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 16:06:59 by nicpinar          #+#    #+#             */
-/*   Updated: 2023/11/04 22:30:31 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/11/23 22:46:05 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,18 +102,18 @@ char	**ft_split(char const *s, char c)
 	split[i] = NULL;
 	return (split);
 }
-/*
-int	main(void)
-{
-	unsigned int	i;
-	char	**split;
 
-	i = 0;
-	split = ft_split("hello 42 how are you" , ' ');
-	while (split[i] != NULL)
-	{
-		printf("%s\n", split[i]);
-		i++;
-	}
-	free(split);
-}*/
+// int	main(void)
+// {
+// 	unsigned int	i;
+// 	char	**split;
+
+// 	i = 0;
+// 	split = ft_split(" hello 42 how are you" , '4');
+// 	while (split[i] != NULL)
+// 	{
+// 		printf("%s\n", split[i]);
+// 		i++;
+// 	}
+// 	free(split);
+// }

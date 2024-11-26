@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-t_token	*create_token(t_lexerstate *state)
+t_token	*create_token(t_parserstate *state)
 {
 	t_token	*t;
 
@@ -28,7 +28,6 @@ t_token	*create_token(t_lexerstate *state)
 			state, (void **)&t);
 	t->size = 0;
 	t->str[0] = '\0';
-	t->type = UNKNOWN;
 	return (t);
 }
 
@@ -42,7 +41,7 @@ void	destroy_token(t_token *t)
 	}
 }
 
-void	push_char(t_token *t, char c, t_lexerstate *state)
+void	push_char(t_token *t, char c, t_parserstate *state)
 {
 	size_t	old_size;
 

@@ -6,11 +6,26 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:42:49 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/11/13 19:12:13 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/11/23 22:49:45 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int	prev_heredoc(t_parserstate *state)
+{
+	t_tokentab	*table;
+	int			size;
+
+	table = state->table;
+	size = table->size;
+	if (size > 1)
+	{
+		if (to_find_str(table->tokens[size -1]->str, "<<") != -1)
+			return (1);
+	}
+	return (0);
+}
 
 int	is_operator(char c)
 {

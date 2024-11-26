@@ -31,19 +31,23 @@ t_tokentab	*create_token_table(void)
 	return (table);
 }
 
-void	push_token(t_tokentab *table, t_token *tok, t_lexerstate *state)
+void	push_token(t_tokentab *table, t_token *tok, t_parserstate *state)
 {
 	size_t	old_size;
 
-	if (table->size >= table->mem_size)
+	if (state->current_token)
 	{
-		old_size = sizeof(t_token *) * table->mem_size;
-		table->mem_size *= 2;
-		table->tokens = ft_realloc(table->tokens, old_size,
-				sizeof(t_token *) * table->mem_size, state);
+		if (table->size >= table->mem_size)
+		{
+			old_size = sizeof(t_token *) * table->mem_size;
+			table->mem_size *= 2;
+			table->tokens = ft_realloc(table->tokens, old_size,
+					sizeof(t_token *) * table->mem_size, state);
+		}
+		table->tokens[table->size] = tok;
+		table->size++;
+		state->current_token = NULL;
 	}
-	table->tokens[table->size] = tok;
-	table->size++;
 }
 
 void	destroy_token_table(t_tokentab *table)

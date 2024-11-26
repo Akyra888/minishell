@@ -20,6 +20,27 @@ static void	sigint_handler(int sig)
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
+void	ft_heredoc_signal(void)
+{
+	struct sigaction	sa;
+
+	sa.sa_handler = SIG_IGN;
+	sa.sa_flags = SA_RESTART;
+	sigemptyset(&sa.sa_mask);
+	if (sigaction(SIGINT, &sa, NULL) == -1)
+	{
+		ft_putstr_fd("SIGACTION FAILED FOR SIGINT\n", 2);
+		exit(1);
+	}
+	sa.sa_handler = SIG_IGN;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	if (sigaction(SIGQUIT, &sa, NULL) == -1)
+	{
+		ft_putstr_fd("SIGACTION FAILED FOR SIGQUIT\n", 2);
+		exit(1);
+	}
+}
 
 void	ft_signal(void)
 {
