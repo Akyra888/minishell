@@ -6,7 +6,7 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:17:14 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/11/26 20:19:10 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/11/27 18:28:56 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,8 @@ typedef struct s_node
 {
 	char			*cmd;
 	char			**args;
-	char			**filein;
-	char			**fileout;
-	int				append;
+	char			**filename;
+	char			**redir;
 	char			*heredoc;
 	char			**envp;
 	struct s_node	*next;

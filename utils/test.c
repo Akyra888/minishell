@@ -6,7 +6,7 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 20:40:01 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/11/23 22:49:40 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/11/27 19:26:27 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@ void	print_token_table(t_tokentab *table)
 
 	i = -1;
 	if (table == NULL)
+		return ;
+	if (table->tokens == NULL)
+		return ;
+	if (table->tokens[0] == NULL)
 		return ;
 	printf("Tokens:\n");
 	while (++i < table->size)
