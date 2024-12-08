@@ -6,41 +6,43 @@
 #    By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/11 22:30:31 by nicpinar          #+#    #+#              #
-#    Updated: 2024/11/27 19:39:25 by nicpinar         ###   ########.fr        #
+#    Updated: 2024/12/08 18:46:54 by nicpinar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME        = minishell
 CC          = gcc
-CFLAGS      = -Wall -Wextra -Werror
+CFLAGS      = -Wall -Wextra -Werror -g
 SRCDIR      = .
 INCDIR      = include
 LIBFTDIR    = libft
 PARSDIR     = parsing
 SIGNDIR     = signal
 UTILSDIR    = utils
-
+CONVDIR		= $(PARSDIR)/convert
 PARSERDIR   = $(PARSDIR)/parser
 TOKENDIR    = $(PARSDIR)/token_manip
-ANALYSERDIR = $(PARSDIR)/analyser
+SYNTAX		= $(PARSDIR)/syntax
 HEREDIR	 	= $(PARSDIR)/heredoc
 
 OBJDIR      = obj
 
 SRC = $(SRCDIR)/main.c \
       $(PARSDIR)/parsing_main.c \
-      $(ANALYSERDIR)/detect_first_errors.c \
-      $(ANALYSERDIR)/detect_last_errors.c \
+      $(SYNTAX)/analyse_line.c \
+      $(SYNTAX)/analyse_tokens.c \
 	  $(HEREDIR)/heredoc.c \
+	  $(CONVDIR)/convert.c \
       $(PARSERDIR)/define_type.c \
       $(PARSERDIR)/expansions.c \
-      $(PARSERDIR)/parser.c \
+      $(PARSERDIR)/tokenizer.c \
       $(TOKENDIR)/token_handling.c \
       $(TOKENDIR)/token_tab_handling.c \
       $(SIGNDIR)/signal.c \
-      $(UTILSDIR)/test.c \
+      $(UTILSDIR)/print.c \
       $(UTILSDIR)/utils.c \
-      $(UTILSDIR)/utils2.c
+      $(UTILSDIR)/utils2.c \
+	  $(UTILSDIR)/utils3.c 
 
 SRCS = $(patsubst ./%,%,$(SRC))
 

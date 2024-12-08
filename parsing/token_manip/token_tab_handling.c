@@ -15,6 +15,7 @@
 t_tokentab	*create_token_table(void)
 {
 	t_tokentab	*table;
+	int			i;
 
 	table = malloc(sizeof(t_tokentab));
 	if (!table)
@@ -28,6 +29,9 @@ t_tokentab	*create_token_table(void)
 		return (NULL);
 	}
 	table->size = 0;
+	i = -1;
+	while (++i < table->mem_size)
+		table->tokens[i] = NULL;
 	return (table);
 }
 

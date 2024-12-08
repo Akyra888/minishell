@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 20:40:01 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/11/27 19:26:27 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/12/08 19:00:08 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,47 @@ void	print_token_table(t_tokentab *table)
 			else
 				printf("Type: UNKNOWN\n");
 		}
+	}
+	printf("\n");
+}
+
+static void	print_array(char **array, const char *label)
+{
+	int	i;
+
+	i = 0;
+	printf("%s: ", label);
+	if (array == NULL)
+	{
+		printf("(NULL)\n");
+		return ;
+	}
+	while (array[i] != NULL)
+	{
+		printf("\"%s\" ", array[i]);
+		i++;
+	}
+	printf("\n");
+}
+
+void	print_sections(t_sections *sections)
+{
+	int	n;
+
+	n = 0;
+	while (sections != NULL)
+	{
+		printf("Section %d:\n", n);
+		print_array(sections->args, "ARGS");
+		print_array(sections->redir, "REDIR");
+		print_array(sections->filename, "FILE");
+		print_array(sections->heredoc, "HEREDOC");
+		if (sections->pipe)
+			printf("PIPE \"%s\"\n", sections->pipe);
+		else
+			printf("PIPE (NULL)\n");
+		printf("\n");
+		sections = sections->next;
+		n++;
 	}
 }

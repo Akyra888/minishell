@@ -6,7 +6,7 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 21:44:10 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/11/26 20:20:17 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/12/06 15:15:27 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,24 +57,26 @@ void	fill_token_with_prompt(char *here_line, t_token *token, t_token *del,
 	}	
 }
 
-void	gen_heredoc_prompt(t_token *token, t_token *del, t_parserstate *state)
+int	gen_heredoc_prompt(t_token *token, t_token *del, t_parserstate *state)
 {
 	char	*here_line;
 
 	recreate_token(token, state);
-	ft_heredoc_signal();
 	while (1)
 	{
-		here_line = readline("> ");
+		here_line = ft_readline(1);
+		if (here_line == NULL)
+			return (1);
 		state->index = 0;
 		if (token->str[0] != '\0' && (ft_strcmp(here_line, del->str) != 0))
 			push_char(token, '\n', state);
 		if (ft_strcmp(here_line, del->str) == 0)
 		{
 			free(here_line);
-			break ;
+			return (0);
 		}
 		fill_token_with_prompt(here_line, token, del, state);
 		free(here_line);
 	}
+	return (0);
 }

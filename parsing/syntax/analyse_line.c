@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   detect_first_errors.c                              :+:      :+:    :+:   */
+/*   line_syntax.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:35:00 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/11/20 19:28:34 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/12/08 18:32:00 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	is_quote_closed(char *str)
 }
 
 int	detect_early_errors(char *line)
-{
+{	
 	if (!is_quote_closed(line))
 		return (early_error(": unclosed quote"));
 	if (to_find_str(line, "\n") != -1)
@@ -62,7 +62,7 @@ int	detect_early_errors(char *line)
 		return (early_error(">< is not handled"));
 	if (to_find_str(line, "<>") != -1)
 		return (early_error("<> is not handled"));
-	if (find_backslash(line) == 1)
+	if (ft_strchr(line, '\\'))
 		return (early_error(": backslash is not handled"));
 	return (0);
 }

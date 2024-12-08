@@ -6,7 +6,7 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:17:14 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/11/27 18:28:56 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/12/08 18:38:33 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,30 @@
 # include <bits/sigaction.h>
 # include <asm-generic/signal-defs.h>
 
-typedef struct s_node
-{
-	char			*cmd;
-	char			**args;
-	char			**filename;
-	char			**redir;
-	char			*heredoc;
-	char			**envp;
-	struct s_node	*next;
-}	t_node;
+extern volatile sig_atomic_t	g_sigint_received;
 
-typedef struct s_lists
+typedef struct s_dict
 {
-	struct s_node	*head;
-	struct s_node	*tail;
-	int				len;
-}	t_lists;
+	char			*name;
+	char			*value;
+	struct s_dict	*next;
+}	t_dict;
+
+typedef struct s_sections
+{
+	char				**args;
+	char				**redir;
+	char				**filename;
+	char				**heredoc;
+	char				*pipe;
+	struct s_sections	*next;
+}	t_sections;
+
+typedef struct s_whole
+{
+	t_sections	**sections;
+	t_dict		**dict;
+}	t_whole;
 
 typedef enum e_type
 {
@@ -86,12 +93,15 @@ typedef struct s_parserstate
 	int					index;
 }	t_parserstate;
 
-//--------------------------------MAIN----------------------------------------//
-void		exit_shell(char *line);
+//------MAIN------//
+char		*ft_readline(int type);
 
 //--------------------------------PARSING-------------------------------------//
 
-void		parsing_main(char *line, char **envp);
+t_sections	*parsing_main(char *line, char **envp);
+
+//------LISTS-----//
+int			convert_to_list(t_sections **sections, t_tokentab *table);
 
 //------ANALYSER-----//
 
@@ -99,19 +109,22 @@ void		parsing_main(char *line, char **envp);
 int			detect_early_errors(char *line);
 //detect_last_errors
 int			analyse_tokens(t_tokentab *table, t_parserstate *state);
+int			analyse_heredoc(t_tokentab *table, t_token **token,
+				int i, t_parserstate *state);
+int			handle_heredoc_analyse(t_tokentab *table, t_parserstate *state);
 
 //------HEREDOC-----//
-void		gen_heredoc_prompt(t_token *token, t_token *del,
+int			gen_heredoc_prompt(t_token *token, t_token *del,
 				t_parserstate *state);
 
-//------PARSER-----//
+//------PARSING-----//
 
 //define_type.c
 void		define_op_type(t_parserstate *state, char c, char next);
 void		define_type(t_parserstate *state, int quote);
 
 //expansions.c
-void		handle_expansion(t_parserstate *state);
+int			handle_expansion(t_parserstate *state);
 char		*ft_expand(char *str, t_parserstate *state);
 
 //parser.c
@@ -131,8 +144,9 @@ void		push_token(t_tokentab *t, t_token *tok, t_parserstate *state);
 void		print_tokens(t_tokentab *t);
 
 //-----------------------------SIGNAL-----------------------------------------//
-void		ft_signal(void);
-void		ft_heredoc_signal(void);
+int			ft_signal(void);
+// void		ft_heredoc_signal(void);
+int			check_signal(void);
 
 //-----------------------------UTILS-----------------------------------------//
 
@@ -152,16 +166,13 @@ int			to_find_str(char *str, char *to_find);
 int			find_backslash(char *str);
 int			prev_heredoc(t_parserstate *state);
 
+//utils3.c
+void		free_sections(t_sections **sections);
+int			free_strs(char **strs);
+char		**add_to_array(char **array, char *str);
+
 //test.c
 void		print_token_table(t_tokentab *table);
-
-//lists.c
-void		push_head(t_lists *l, char *token);
-void		lstadd_tail(t_lists *l, char *token);
-t_node		*lstdel_head(t_lists *l);
-
-//lists2.c
-void		print_list(t_lists *l);
-void		swap_nodes(t_lists *l, char *token1, char *token2);
+void		print_sections(t_sections *sections);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 17:05:36 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/11/26 20:18:24 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/12/08 18:30:36 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,39 @@ char	*ft_expand(char *str, t_parserstate *state)
 	return (expanded);
 }
 
-void	handle_expansion(t_parserstate *state)
+static int	check_split_expansion(char **strs, t_parserstate *state)
+{
+	int	i;
+	int	j;
+	int	len;
+
+	i = 0;
+	j = 0;
+	len = 0;
+	while (strs[len] != NULL)
+		len++;
+	if (len == 1)
+		return (0);
+	while (strs[i])
+	{
+		if (i > 0)
+			state->current_token = create_token(state);
+		j = 0;
+		while (strs[i][j++])
+			push_char(state->current_token, strs[i][j], state);
+		define_type(state, 0);
+		if (i < len -1)
+			push_token(state->table, state->current_token, state);
+		i++;
+	}
+	return (1);
+}
+
+int	handle_expansion(t_parserstate *state)
 {
 	char	*expanded;
 	int		i;
+	char	**strs;
 
 	i = 0;
 	if (!state->current_token)
@@ -50,12 +79,18 @@ void	handle_expansion(t_parserstate *state)
 	define_type(state, 0);
 	state->index++;
 	expanded = ft_expand(state->line, state);
-	if (expanded)
+	if (!expanded)
+		return (1);
+	strs = ft_split(expanded, ' ');
+	if (!strs)
+		malloc_error("split failed\n", state, NULL);
+	if (check_split_expansion(strs, state))
+		return (free_strs(strs));
+	free_strs(strs);
+	while (expanded[i])
 	{
-		while (expanded[i])
-		{
-			push_char(state->current_token, expanded[i], state);
-			i++;
-		}
+		push_char(state->current_token, expanded[i], state);
+		i++;
 	}
+	return (0);
 }

@@ -12,38 +12,25 @@
 
 #include "../include/minishell.h"
 
+int	check_signal(void)
+{
+	if (g_sigint_received == SIGINT)
+	{
+		rl_replace_line("", 0);
+		rl_done = 1;
+		write(STDOUT_FILENO, "\n", 1);
+		rl_on_new_line();
+		return (1);
+	}
+	return (0);
+}
+
 static void	sigint_handler(int sig)
 {
-	(void)sig;
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	g_sigint_received = sig;
 }
 
-void	ft_heredoc_signal(void)
-{
-	struct sigaction	sa;
-
-	sa.sa_handler = SIG_IGN;
-	sa.sa_flags = SA_RESTART;
-	sigemptyset(&sa.sa_mask);
-	if (sigaction(SIGINT, &sa, NULL) == -1)
-	{
-		ft_putstr_fd("SIGACTION FAILED FOR SIGINT\n", 2);
-		exit(1);
-	}
-	sa.sa_handler = SIG_IGN;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	if (sigaction(SIGQUIT, &sa, NULL) == -1)
-	{
-		ft_putstr_fd("SIGACTION FAILED FOR SIGQUIT\n", 2);
-		exit(1);
-	}
-}
-
-void	ft_signal(void)
+int	ft_signal(void)
 {
 	struct sigaction	sa;
 
@@ -53,14 +40,15 @@ void	ft_signal(void)
 	if (sigaction(SIGINT, &sa, NULL) == -1)
 	{
 		ft_putstr_fd("SIGACTION FAILED FOR SIGINT\n", 2);
-		exit(1);
+		return (0);
 	}
 	sa.sa_handler = SIG_IGN;
-	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
+	sigemptyset(&sa.sa_mask);
 	if (sigaction(SIGQUIT, &sa, NULL) == -1)
 	{
 		ft_putstr_fd("SIGACTION FAILED FOR SIGQUIT\n", 2);
-		exit(1);
+		return (0);
 	}
+	return (1);
 }
