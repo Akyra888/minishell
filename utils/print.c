@@ -6,7 +6,7 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 20:40:01 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/08 19:00:08 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/12/11 13:34:18 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	print_array(char **array, const char *label)
 	}
 	while (array[i] != NULL)
 	{
-		printf("\"%s\" ", array[i]);
+		printf("%s -> ", array[i]);
 		i++;
 	}
 	printf("\n");

@@ -58,6 +58,11 @@ int	main(int argc, char **argv, char **envp)
 		if (*line != '\0')
 		{
 			add_history(line);
+			// la fonction parsing main ci dessous renvoie une liste chainee de sections de commandes tel que t_sections *
+			// donc soit tu declare ici une variable t_sections *sections et tu lui affectes le retour de parsing_main
+			// soit tu crees une fonction exec qui prend en parametre le retour de parsing_mains
+			// si tu veux manipuler la liste sans perdre la reference au premier noeud tu dois la referencer
+			// cest a dire tu la passes a ta fonction qui la manipule comme ceci : ft_fonction(&sections);
 			parsing_main(line, envp);
 		}
 		free(line);

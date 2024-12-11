@@ -6,7 +6,7 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:17:14 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/08 18:38:33 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/12/11 13:28:30 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,6 @@
 
 extern volatile sig_atomic_t	g_sigint_received;
 
-typedef struct s_dict
-{
-	char			*name;
-	char			*value;
-	struct s_dict	*next;
-}	t_dict;
-
 typedef struct s_sections
 {
 	char				**args;
@@ -48,12 +41,6 @@ typedef struct s_sections
 	char				*pipe;
 	struct s_sections	*next;
 }	t_sections;
-
-typedef struct s_whole
-{
-	t_sections	**sections;
-	t_dict		**dict;
-}	t_whole;
 
 typedef enum e_type
 {
