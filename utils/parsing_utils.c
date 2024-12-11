@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils2.c                                           :+:      :+:    :+:   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:42:49 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/06 21:13:43 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/12/11 15:02:01 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,35 +34,30 @@ int	is_operator(char c)
 	return (0);
 }
 
-int	is_only_spaces(char *str)
+int	is_valid_exp(char c, unsigned int next)
 {
-	int	i;
-
-	i = 0;
-	if (!str || *str == '\0')
-		return (0);
-	while (str[i] != '\0')
+	if (!next)
 	{
-		if (str[i] == ' ' || str[i] == '\t')
-			i++;
-		else
+		if (isalpha(c) || c == 95)
 			return (1);
+		return (0);
 	}
-	return (0);
+	else
+	{
+		if (isalnum(c) || c == 95)
+			return (1);
+		return (0);
+	}
 }
 
-int	find_backslash(char *str)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
+	while (*s1 && *s2 && *s1 == *s2)
 	{
-		if (str[i] == '\\')
-			return (1);
-		i++;
+		s1++;
+		s2++;
 	}
-	return (0);
+	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
 
 int	to_find_str(char *str, char *to_find)

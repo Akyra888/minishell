@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   line_syntax.c                                      :+:      :+:    :+:   */
+/*   analyse_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:35:00 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/08 18:32:00 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/12/11 14:56:16 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	is_quote_closed(char *str)
 	return (1);
 }
 
-int	detect_early_errors(char *line)
+int	analyse_line(char *line)
 {	
 	if (!is_quote_closed(line))
 		return (early_error(": unclosed quote"));

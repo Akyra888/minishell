@@ -6,7 +6,7 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 20:40:01 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/11 13:34:18 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/12/11 15:13:09 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	print_token_table(t_tokentab *table)
 		return ;
 	if (table->tokens[0] == NULL)
 		return ;
-	printf("Tokens:\n");
+	printf("\nTokens:\n\n");
 	while (++i < table->size)
 	{
 		if (table->tokens[i] && table->tokens[i]->str)
@@ -69,7 +69,9 @@ static void	print_array(char **array, const char *label)
 	}
 	while (array[i] != NULL)
 	{
-		printf("%s -> ", array[i]);
+		printf("%s", array[i]);
+		if (array[i + 1] != NULL)
+			printf(" -> ");
 		i++;
 	}
 	printf("\n");
@@ -82,7 +84,7 @@ void	print_sections(t_sections *sections)
 	n = 0;
 	while (sections != NULL)
 	{
-		printf("Section %d:\n", n);
+		printf("Section %d:\n\n", n);
 		print_array(sections->args, "ARGS");
 		print_array(sections->redir, "REDIR");
 		print_array(sections->filename, "FILE");

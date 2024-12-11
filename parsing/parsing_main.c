@@ -6,7 +6,7 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 20:12:45 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/11 13:37:15 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/12/11 15:02:09 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_sections	*parsing_main(char *line, char **envp)
 	(void)envp;
 	sections = NULL;
 	//detecter les premiers erreurs et initialiser le parserstate
-	if (detect_early_errors(line) || init_parserstate(&state, line))
+	if (analyse_line(line) || init_parserstate(&state, line))
 		return (NULL);
 	//transformer la ligne en tokens
 	table = tokenizer(&state);

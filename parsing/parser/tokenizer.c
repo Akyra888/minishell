@@ -6,7 +6,7 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:54:21 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/08 18:30:57 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/12/11 15:02:08 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	handle_quote(t_parserstate *state, char quote)
 	while (state->line[state->index++] != '\0')
 	{
 		c = state->line[state->index];
-		while (c == '$' && is_valid(state->line[state->index + 1])
+		while (c == '$' && is_valid_exp(state->line[state->index + 1], 0)
 			&& quote != '\'' && !prev_heredoc(state))
 		{
 			handle_expansion(state);
@@ -79,7 +79,7 @@ t_tokentab	*tokenizer(t_parserstate *state)
 			push_token(state->table, state->current_token, state);
 			state->index++;
 		}
-		else if (c == '$' && is_valid(state->line[state->index + 1])
+		else if (c == '$' && is_valid_exp(state->line[state->index + 1], 1)
 			&& !prev_heredoc(state))
 			handle_expansion(state);
 		else if (c == '\'' || c == '"')

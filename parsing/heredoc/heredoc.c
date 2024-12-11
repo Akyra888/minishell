@@ -6,7 +6,7 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 21:44:10 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/06 15:15:27 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/12/11 15:02:03 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	fill_token_with_prompt(char *here_line, t_token *token, t_token *del,
 {
 	while (here_line[state->index] != '\0')
 	{
-		if (here_line[state->index] == '$' && is_valid
-			(here_line[state->index + 1]) && del->type == DELIMITER)
+		if (here_line[state->index] == '$' && is_valid_exp
+			(here_line[state->index + 1], 0) && del->type == DELIMITER)
 			handle_exp_here(token, here_line, state);
 		else
 		{

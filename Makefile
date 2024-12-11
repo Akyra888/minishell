@@ -6,7 +6,7 @@
 #    By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/11 22:30:31 by nicpinar          #+#    #+#              #
-#    Updated: 2024/12/08 18:46:54 by nicpinar         ###   ########.fr        #
+#    Updated: 2024/12/11 15:16:09 by nicpinar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,10 +39,10 @@ SRC = $(SRCDIR)/main.c \
       $(TOKENDIR)/token_handling.c \
       $(TOKENDIR)/token_tab_handling.c \
       $(SIGNDIR)/signal.c \
+      $(UTILSDIR)/free_memory.c \
+      $(UTILSDIR)/parsing_utils.c \
       $(UTILSDIR)/print.c \
-      $(UTILSDIR)/utils.c \
-      $(UTILSDIR)/utils2.c \
-	  $(UTILSDIR)/utils3.c 
+	  $(UTILSDIR)/str_manip.c
 
 SRCS = $(patsubst ./%,%,$(SRC))
 

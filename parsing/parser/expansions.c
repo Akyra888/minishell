@@ -6,7 +6,7 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 17:05:36 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/08 18:30:36 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/12/11 15:02:06 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ char	*ft_expand(char *str, t_parserstate *state)
 
 	len = 0;
 	i = state->index;
-	while (is_next_valid(str[i++]))
+	while (is_valid_exp(str[i++], 1))
 		len++;
 	var_name = (char *)malloc(sizeof(char) * (len + 1));
 	if (!var_name)
 		malloc_error("malloc failed at expansions.c 44", state, NULL);
 	i = 0;
-	while (is_next_valid(str[state->index]))
+	while (is_valid_exp(str[state->index], 1))
 	{
 		var_name[i] = str[state->index];
 		i++;

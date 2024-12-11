@@ -1,55 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   str_manip.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/01 19:10:03 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/08 16:28:18 by nicpinar         ###   ########.fr       */
+/*   Created: 2024/12/06 15:37:38 by nicpinar          #+#    #+#             */
+/*   Updated: 2024/12/11 14:45:34 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	is_valid(char c)
+char	**add_to_array(char **array, char *str)
 {
-	if (isalpha(c) || c == 95)
-		return (1);
-	return (0);
-}
+	int		i;
+	char	**new;
 
-int	is_next_valid(char c)
-{
-	if (ft_isalnum(c) || c == 95)
-		return (1);
-	return (0);
-}
-
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	while (*s1 && *s2 && *s1 == *s2)
+	i = 0;
+	if (!str)
+		return (NULL);
+	while (array && array[i])
+		i++;
+	new = (char **)malloc(sizeof(char *) * (i + 2));
+	if (!new)
+		return (NULL);
+	i = 0;
+	while (array && array[i])
 	{
-		s1++;
-		s2++;
+		new[i] = array[i];
+		i++;
 	}
-	return ((unsigned char)*s1 - (unsigned char)*s2);
-}
-
-void	malloc_error(char *str, t_parserstate *state, void **local)
-{
-	ft_putstr_fd("Error: ", 2);
-	ft_putstr_fd(str, 2);
-	if (state->line)
-		free(state->line);
-	rl_clear_history();
-	if (local && *local)
-		free(*local);
-	if (state->current_token)
-		free(state->current_token);
-	if (state->table)
-		destroy_token_table(state->table);
-	exit(EXIT_FAILURE);
+	new[i] = ft_strdup(str);
+	if (!new[i])
+		return (free_strs(new), NULL);
+	if (array)
+		free(array);
+	new[i + 1] = NULL;
+	return (new);
 }
 
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size,
