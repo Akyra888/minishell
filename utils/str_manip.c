@@ -6,11 +6,23 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 15:37:38 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/11 14:45:34 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/12/13 19:37:20 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int	ft_strs_len(char **strs)
+{
+	int	i;
+
+	i = 0;
+	if (!strs)
+		return (0);
+	while (strs[i] != NULL)
+		i++;
+	return (i);
+}
 
 char	**add_to_array(char **array, char *str)
 {

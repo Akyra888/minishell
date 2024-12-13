@@ -6,57 +6,11 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 20:59:36 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/11 13:36:44 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/12/11 18:29:37 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-static t_sections	*alloc_node(t_sections **sections)
-{
-	t_sections	*node;
-
-	node = NULL;
-	node = (t_sections *)malloc(sizeof(t_sections));
-	if (!node)
-		free_sections(sections);
-	else
-	{
-		node->args = NULL;
-		node->redir = NULL;
-		node->filename = NULL;
-		node->heredoc = NULL;
-		node->pipe = NULL;
-		node->next = NULL;
-	}
-	return (node);
-}
-
-static int	handle_pipe(t_sections *curr, t_sections **sections)
-{
-	curr->pipe = ft_strdup("|");
-	if (!(curr->pipe))
-	{
-		free_sections(sections);
-		return (1);
-	}
-	return (0);
-}
-
-static int	alloc_and_update(t_sections **sections, t_sections **curr)
-{
-	t_sections	*new;
-
-	new = alloc_node(sections);
-	if (!new)
-		return (1);
-	if (*sections == NULL)
-		*sections = new;
-	else
-		(*curr)->next = new;
-	*curr = new;
-	return (0);
-}
 
 static int	fill_sections(t_sections *curr, t_token *tok)
 {
@@ -84,6 +38,52 @@ static int	fill_sections(t_sections *curr, t_token *tok)
 		if (!curr->heredoc)
 			return (1);
 	}
+	return (0);
+}
+
+static int	handle_pipe(t_sections *curr, t_sections **sections)
+{
+	curr->pipe = ft_strdup("|");
+	if (!(curr->pipe))
+	{
+		free_sections(sections);
+		return (1);
+	}
+	return (0);
+}
+
+static t_sections	*alloc_node(t_sections **sections)
+{
+	t_sections	*node;
+
+	node = NULL;
+	node = (t_sections *)malloc(sizeof(t_sections));
+	if (!node)
+		free_sections(sections);
+	else
+	{
+		node->args = NULL;
+		node->redir = NULL;
+		node->filename = NULL;
+		node->heredoc = NULL;
+		node->pipe = NULL;
+		node->next = NULL;
+	}
+	return (node);
+}
+
+static int	alloc_and_update(t_sections **sections, t_sections **curr)
+{
+	t_sections	*new;
+
+	new = alloc_node(sections);
+	if (!new)
+		return (1);
+	if (*sections == NULL)
+		*sections = new;
+	else
+		(*curr)->next = new;
+	*curr = new;
 	return (0);
 }
 

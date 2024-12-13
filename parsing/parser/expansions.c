@@ -6,7 +6,7 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 17:05:36 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/11 15:02:06 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/12/13 19:37:31 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,19 @@ static int	check_split_expansion(char **strs, t_parserstate *state)
 
 	i = 0;
 	j = 0;
-	len = 0;
-	while (strs[len] != NULL)
-		len++;
-	if (len == 1)
-		return (0);
+	len = ft_strs_len(strs);
+	if (!len || len == 1)
+		return (1);
 	while (strs[i])
 	{
 		if (i > 0)
 			state->current_token = create_token(state);
 		j = 0;
-		while (strs[i][j++])
+		while (strs[i][j])
+		{
 			push_char(state->current_token, strs[i][j], state);
+			j++;
+		}
 		define_type(state, 0);
 		if (i < len -1)
 			push_token(state->table, state->current_token, state);

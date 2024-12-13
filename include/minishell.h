@@ -6,7 +6,7 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:17:14 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/11 15:07:15 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/12/13 19:37:17 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,5 +159,6 @@ void		print_sections(t_sections *sections);
 char		**add_to_array(char **array, char *str);
 void		*ft_realloc(void *ptr, size_t old_size, size_t new_size,
 	t_parserstate *state);
+int			ft_strs_len(char **strs);
 
 #endif
