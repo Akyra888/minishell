@@ -6,7 +6,7 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:17:14 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/13 19:37:17 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/12/13 19:57:30 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void		define_op_type(t_parserstate *state, char c, char next);
 void		define_type(t_parserstate *state, int quote);
 
 //expansions.c
-int			handle_expansion(t_parserstate *state);
+int			handle_expansion(t_parserstate *state, int quote);
 char		*ft_expand(char *str, t_parserstate *state);
 
 //tokeniser.c

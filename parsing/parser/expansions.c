@@ -6,7 +6,7 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 17:05:36 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/13 19:37:31 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/12/13 20:03:13 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*ft_expand(char *str, t_parserstate *state)
 	return (expanded);
 }
 
-static int	check_split_expansion(char **strs, t_parserstate *state)
+static int	split_expansion(char **strs, t_parserstate *state)
 {
 	int	i;
 	int	j;
@@ -49,7 +49,7 @@ static int	check_split_expansion(char **strs, t_parserstate *state)
 	j = 0;
 	len = ft_strs_len(strs);
 	if (!len || len == 1)
-		return (1);
+		return (0);
 	while (strs[i])
 	{
 		if (i > 0)
@@ -68,11 +68,23 @@ static int	check_split_expansion(char **strs, t_parserstate *state)
 	return (1);
 }
 
-int	handle_expansion(t_parserstate *state)
+static int	check_split_expansion(char *expanded, t_parserstate *state)
+{
+	char	**strs;
+
+	strs = ft_split(expanded, ' ');
+	if (!strs)
+		malloc_error("malloc failed at expansions.c 77", state, NULL);
+	if (split_expansion(strs, state))
+		return (1);
+	free_strs(strs);
+	return (0);
+}
+
+int	handle_expansion(t_parserstate *state, int quote)
 {
 	char	*expanded;
 	int		i;
-	char	**strs;
 
 	i = 0;
 	if (!state->current_token)
@@ -82,12 +94,11 @@ int	handle_expansion(t_parserstate *state)
 	expanded = ft_expand(state->line, state);
 	if (!expanded)
 		return (1);
-	strs = ft_split(expanded, ' ');
-	if (!strs)
-		malloc_error("split failed\n", state, NULL);
-	if (check_split_expansion(strs, state))
-		return (free_strs(strs));
-	free_strs(strs);
+	if (!quote)
+	{
+		if (check_split_expansion(expanded, state))
+			return (1);
+	}
 	while (expanded[i])
 	{
 		push_char(state->current_token, expanded[i], state);
