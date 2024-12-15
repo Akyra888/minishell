@@ -4,6 +4,14 @@
 		"libft.h": "c",
 		"history.h": "c",
 		"readline.h": "c",
-		"string.h": "c"
+		"string.h": "c",
+		"stat.h": "c",
+		"signal-defs.h": "c",
+		"ioctl.h": "c",
+		"sigaction.h": "c",
+		"stddef.h": "c",
+		"errno.h": "c",
+		"stdlib.h": "c",
+		"unistd.h": "c"
 	}
 }

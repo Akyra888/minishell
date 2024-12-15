@@ -6,7 +6,7 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 21:44:10 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/13 19:58:31 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/12/15 18:20:26 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int	gen_heredoc_prompt(t_token *token, t_token *del, t_parserstate *state)
 	char	*here_line;
 
 	recreate_token(token, state);
+	setup_heredoc_signals();
+	rl_event_hook = do_nothing;
 	while (1)
 	{
 		here_line = ft_readline(1);

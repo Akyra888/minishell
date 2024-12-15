@@ -6,7 +6,7 @@
 /*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:17:14 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/13 19:57:30 by nicpinar         ###   ########.fr       */
+/*   Updated: 2024/12/15 18:19:57 by nicpinar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # include <bits/sigaction.h>
 # include <asm-generic/signal-defs.h>
 
-extern volatile sig_atomic_t	g_sigint_received;
+extern volatile sig_atomic_t	g_signbr;
 
 typedef struct s_sections
 {
@@ -134,8 +134,15 @@ void		print_tokens(t_tokentab *t);
 //-----------------------------SIGNAL-----------------------------------------//
 
 //signal.c
-int			ft_signal(void);
-int			check_signal(void);
+void		setup_signals(void);
+void		setup_heredoc_signals(void);
+
+//handler.c
+void		sigquit_child(int sig);
+void		sigint_child(int sig);
+void		sigint_main(int sig);
+void		sigint_heredoc(int sig);
+int			do_nothing(void);
 
 //-----------------------------UTILS-----------------------------------------//
 

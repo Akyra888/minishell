@@ -12,43 +12,21 @@
 
 #include "../include/minishell.h"
 
-int	check_signal(void)
+void	setup_child_signals(void)
 {
-	if (g_sigint_received == SIGINT)
-	{
-		rl_replace_line("", 0);
-		rl_done = 1;
-		write(STDOUT_FILENO, "\n", 1);
-		rl_on_new_line();
-		return (1);
-	}
-	return (0);
+	signal(SIGINT, sigint_child);
+	signal(SIGQUIT, sigquit_child);
 }
 
-static void	sigint_handler(int sig)
+void	setup_heredoc_signals(void)
 {
-	g_sigint_received = sig;
+	signal(SIGINT, sigint_heredoc);
+	signal(SIGQUIT, SIG_IGN);
 }
 
-int	ft_signal(void)
+void	setup_signals(void)
 {
-	struct sigaction	sa;
-
-	sa.sa_handler = sigint_handler;
-	sa.sa_flags = SA_RESTART;
-	sigemptyset(&sa.sa_mask);
-	if (sigaction(SIGINT, &sa, NULL) == -1)
-	{
-		ft_putstr_fd("SIGACTION FAILED FOR SIGINT\n", 2);
-		return (0);
-	}
-	sa.sa_handler = SIG_IGN;
-	sa.sa_flags = 0;
-	sigemptyset(&sa.sa_mask);
-	if (sigaction(SIGQUIT, &sa, NULL) == -1)
-	{
-		ft_putstr_fd("SIGACTION FAILED FOR SIGQUIT\n", 2);
-		return (0);
-	}
-	return (1);
+	rl_event_hook = do_nothing;
+	signal(SIGINT, sigint_main);
+	signal(SIGQUIT, SIG_IGN);
 }
