@@ -17,7 +17,6 @@ static int	init_parserstate(t_parserstate *state, char *line)
 	state->current_token = NULL;
 	state->line = line;
 	state->index = 0;
-	state->table = NULL;
 	state->table = create_token_table();
 	if (!state->table)
 		malloc_error("init table failed\n", state, NULL);
