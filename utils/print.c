@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyra <kyra@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 20:40:01 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/11 15:26:19 by nicpinar         ###   ########.fr       */
+/*   Updated: 2025/01/26 20:16:26 by kyra             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,10 @@ void	print_sections(t_sections *sections)
 	{
 		printf("Section %d:\n\n", n);
 		print_array(sections->args, "ARGS");
+		if (sections->binpath)
+			printf("PATH_BIN \"%s\"\n", sections->binpath);
+		else
+			printf("PATH_BIN (NULL)\n");
 		print_array(sections->redir, "REDIR");
 		print_array(sections->filename, "FILE");
 		print_array(sections->heredoc, "HEREDOC");

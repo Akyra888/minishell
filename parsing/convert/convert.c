@@ -111,6 +111,5 @@ int	convert_to_list(t_sections **sections, t_tokentab *table)
 		if (fill_sections(curr, token))
 			return (free_sections(sections), 1);
 	}
-	print_sections(*sections);
 	return (0);
 }

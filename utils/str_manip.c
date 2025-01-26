@@ -3,14 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   str_manip.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyra <kyra@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 15:37:38 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/15 12:45:35 by nicpinar         ###   ########.fr       */
+/*   Updated: 2025/01/26 20:27:23 by kyra             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+char	**get_dict(char **envp)
+{
+	int		i;
+	char	**dict;
+
+	i = 0;
+	if (!envp || !envp[0])
+		return (NULL);
+	while (envp[i])
+		i++;
+	dict = malloc(sizeof(char *) * (i + 1));
+	if (!dict)
+		malloc_error("dict malloc failed\n", NULL, NULL);
+	i = 0;
+	while (envp[i])
+	{
+		dict[i] = ft_strdup(envp[i]);
+		if (!dict[i])
+			malloc_error("dict malloc failed\n", NULL, (void**)dict);
+		i++;
+	}
+	dict[i] = NULL;
+	return (dict);
+}
 
 int	ft_strs_len(char **strs)
 {

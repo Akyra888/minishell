@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+         #
+#    By: kyra <kyra@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/11 22:30:31 by nicpinar          #+#    #+#              #
-#    Updated: 2024/12/15 17:51:03 by nicpinar         ###   ########.fr        #
+#    Updated: 2025/01/26 20:15:31 by kyra             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRC = $(SRCDIR)/main.c \
       $(PARSERDIR)/define_type.c \
       $(PARSERDIR)/expansions.c \
       $(PARSERDIR)/tokenizer.c \
+	  $(PARSERDIR)/define_binpath.c \
       $(TOKENDIR)/token_handling.c \
       $(TOKENDIR)/token_tab_handling.c \
       $(SIGNDIR)/signal.c \

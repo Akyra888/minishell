@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyra <kyra@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:17:14 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/15 18:19:57 by nicpinar         ###   ########.fr       */
+/*   Updated: 2025/01/26 20:28:00 by kyra             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ extern volatile sig_atomic_t	g_signbr;
 typedef struct s_sections
 {
 	char				**args;
+	char				*binpath;
 	char				**redir;
 	char				**filename;
 	char				**heredoc;
@@ -86,7 +87,7 @@ char		*ft_readline(int type);
 //--------------------------------PARSING-------------------------------------//
 
 //parsing_main.c
-t_sections	*parsing_main(char *line, char **envp);
+t_sections	*parsing_main(char *line, char **dict);
 
 //------CONVERT-----//
 
@@ -105,7 +106,7 @@ int			analyse_line(char *line);
 //analyse_tokens.c
 int			analyse_tokens(t_tokentab *table, t_parserstate *state);
 
-//------PARSING-----//
+//------PARSER-----//
 
 //define_type.c
 void		define_op_type(t_parserstate *state, char c, char next);
@@ -117,6 +118,9 @@ char		*ft_expand(char *str, t_parserstate *state);
 
 //tokeniser.c
 t_tokentab	*tokenizer(t_parserstate *state);
+
+//binpath.c
+void		define_binpath(t_sections **sections, char **dict);
 
 //-----TOKEN_MANIP-----//
 
@@ -163,6 +167,7 @@ void		print_token_table(t_tokentab *table);
 void		print_sections(t_sections *sections);
 
 //str_manip.c
+char		**get_dict(char **envp);
 char		**add_to_array(char **array, char *str);
 void		*ft_realloc(void *ptr, size_t old_size, size_t new_size,
 	t_parserstate *state);
