@@ -21,13 +21,14 @@ t_token	*create_token(t_parserstate *state)
 		malloc_error("Error malloc for t in create_token",
 			state, NULL);
 	t->mem_size = 16;
-	t->str = NULL;
+	t->type = UNKNOWN;
 	t->str = malloc(sizeof(char) * t->mem_size);
 	if (!t->str)
 		malloc_error("Error malloc for t->str in create_token",
 			state, (void **)&t);
 	t->size = 0;
 	t->str[0] = '\0';
+	t->expanded_split = NULL;
 	return (t);
 }
 

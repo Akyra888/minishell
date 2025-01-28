@@ -6,7 +6,7 @@
 /*   By: kyra <kyra@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 15:37:38 by nicpinar          #+#    #+#             */
-/*   Updated: 2025/01/26 20:27:23 by kyra             ###   ########.fr       */
+/*   Updated: 2025/01/27 19:52:26 by kyra             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ char	**add_to_array(char **array, char *str)
 	new[i + 1] = NULL;
 	return (new);
 }
+
 
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size,
 	t_parserstate *state)

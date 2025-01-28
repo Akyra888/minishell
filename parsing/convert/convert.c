@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   convert.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyra <kyra@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 20:59:36 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/11 18:29:37 by nicpinar         ###   ########.fr       */
+/*   Updated: 2025/01/27 17:50:40 by kyra             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static t_sections	*alloc_node(t_sections **sections)
 	else
 	{
 		node->args = NULL;
+		node->binpath = NULL;
 		node->redir = NULL;
 		node->filename = NULL;
 		node->heredoc = NULL;

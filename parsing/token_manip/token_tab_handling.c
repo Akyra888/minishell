@@ -65,15 +65,14 @@ void	destroy_token_table(t_tokentab *table)
 		{
 			if (table->tokens[0])
 			{
-				while (++i < table->size)
+				while (++i < table->mem_size)
 				{
 					if (table->tokens[i])
 						destroy_token(table->tokens[i]);
 				}
-				if (table->tokens)
-					free(table->tokens);
-				free(table);
 			}
+			free(table->tokens);
 		}
+		free(table);
 	}
 }

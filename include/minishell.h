@@ -6,7 +6,7 @@
 /*   By: kyra <kyra@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:17:14 by nicpinar          #+#    #+#             */
-/*   Updated: 2025/01/26 20:28:00 by kyra             ###   ########.fr       */
+/*   Updated: 2025/01/28 18:45:33 by kyra             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef enum e_type
 typedef struct token
 {
 	char				*str;
+	char				**expanded_split;
 	int					size;
 	int					mem_size;
 	t_type				type;
@@ -87,7 +88,7 @@ char		*ft_readline(int type);
 //--------------------------------PARSING-------------------------------------//
 
 //parsing_main.c
-t_sections	*parsing_main(char *line, char **dict);
+t_sections	*parsing_main(char **line, char **dict);
 
 //------CONVERT-----//
 
@@ -151,6 +152,7 @@ int			do_nothing(void);
 //-----------------------------UTILS-----------------------------------------//
 
 //free_memory.c
+void		malloc_error2(char *str, char **split, t_sections **sections, char **dict);
 void		free_sections(t_sections **sections);
 int			free_strs(char **strs);
 void		malloc_error(char *str, t_parserstate *state, void **local);

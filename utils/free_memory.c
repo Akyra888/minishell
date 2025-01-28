@@ -3,26 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   free_memory.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyra <kyra@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 14:32:00 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/11 14:45:30 by nicpinar         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:41:59 by kyra             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+void	malloc_error2(char *str, char **split, t_sections **sections, char **dict)
+{
+	if (split)
+		free_strs(split);
+	if (sections)
+		free_sections(sections);
+	if (dict)
+		free_strs(dict);
+	ft_putstr_fd(str, 2);
+	exit(EXIT_FAILURE);
+}
+
 void	malloc_error(char *str, t_parserstate *state, void **local)
 {
 	ft_putstr_fd("Error: ", 2);
 	ft_putstr_fd(str, 2);
-	if (state->line)
-		free(state->line);
+	// if (state->line)
+	// 	free(state->line);
 	rl_clear_history();
 	if (local && *local)
 		free(*local);
 	if (state->current_token)
+	{
+		if (state->current_token->str)
+			free(state->current_token->str);
+		if (state->current_token->expanded_split)
+			free_strs(state->current_token->expanded_split);
 		free(state->current_token);
+	}
 	if (state->table)
 		destroy_token_table(state->table);
 	exit(EXIT_FAILURE);
@@ -40,10 +58,13 @@ void	free_sections(t_sections **sections)
 	{
 		next = curr->next;
 		free_strs(curr->args);
+		if (curr->binpath)
+			free(curr->binpath);
 		free_strs(curr->redir);
 		free_strs(curr->filename);
 		free_strs(curr->heredoc);
-		free(curr->pipe);
+		if (curr->pipe)		
+			free(curr->pipe);
 		free(curr);
 		curr = next;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyra <kyra@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 17:05:36 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/15 12:42:14 by nicpinar         ###   ########.fr       */
+/*   Updated: 2025/01/27 19:23:26 by kyra             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,15 @@ static int	split_expansion(char **strs, t_parserstate *state)
 	len = ft_strs_len(strs);
 	if (!len || len == 1)
 		return (0);
+	if (state->current_token)
+		state->current_token->size = 0;
 	while (strs[i])
 	{
 		if (i > 0)
 			state->current_token = create_token(state);
 		j = 0;
 		while (strs[i][j])
-		{
-			push_char(state->current_token, strs[i][j], state);
-			j++;
-		}
+			push_char(state->current_token, strs[i][j++], state);
 		define_type(state, 0);
 		if (i < len -1)
 			push_token(state->table, state->current_token, state);
@@ -72,11 +71,15 @@ static int	check_split_expansion(char *expanded, t_parserstate *state)
 {
 	char	**strs;
 
-	strs = ft_split(expanded, ' ');
+	state->current_token->expanded_split = ft_split(expanded, ' ');
+	strs = state->current_token->expanded_split;
 	if (!strs)
 		malloc_error("malloc failed at expansions.c 77", state, NULL);
 	if (split_expansion(strs, state))
+	{
+		free_strs(strs);
 		return (1);
+	}
 	free_strs(strs);
 	return (0);
 }

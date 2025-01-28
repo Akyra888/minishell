@@ -47,13 +47,12 @@ char	*ft_readline(int type)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
-	char	**dict;
+	char		*line;
+	t_sections	*sections;
 
 	(void)argc;
 	(void)argv;
 	setup_signals();
-	dict = get_dict(envp);
 	while (1)
 	{
 		line = ft_readline(0);
@@ -64,9 +63,11 @@ int	main(int argc, char **argv, char **envp)
 		if (*line != '\0')
 		{
 			add_history(line);
-			parsing_main(line, dict);
+			sections = parsing_main(&line, envp);
+			free_sections(&sections);
 		}
-		free(line);
+		if (line)
+			free(line);
 	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   define_type.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyra <kyra@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 18:10:33 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/08 18:31:05 by nicpinar         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:19:09 by kyra             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ static void	define_type2(t_parserstate *state, int i)
 {
 	if (state->table->tokens[i - 1]->type == DELIMITER)
 	{
-		if (i > 1 && state->table->tokens[i - 2]->type == COMMAND)
-			state->current_token->type = ARG;
-		else if (i > 1 && state->table->tokens[i - 2]->type != COMMAND)
+		if (state->table->tokens[0]->type != COMMAND)
 			state->current_token->type = COMMAND;
+		else
+			state->current_token->type = ARG;
 	}
 	if (state->table->tokens[i - 1]->type == PIPE)
 		state->current_token->type = COMMAND;
