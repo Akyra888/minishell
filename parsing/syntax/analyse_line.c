@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   analyse_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicpinar <nicpinar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyra <kyra@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:35:00 by nicpinar          #+#    #+#             */
-/*   Updated: 2024/12/11 14:56:16 by nicpinar         ###   ########.fr       */
+/*   Updated: 2025/01/28 20:55:13 by kyra             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static int	early_error(char *str)
 	ft_putstr_fd("minishell: syntax error ", 2);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd("\n", 2);
+	g_signbr = 2;
 	return (1);
 }
 
